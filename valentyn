@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentýnka 💘</title>
+  <style>
+    :root{
+      --bg1:#ffb6c1;
+      --bg2:#ffd1dc;
+      --card:#ffffffcc;
+      --text:#3a0b1d;
+      --pink:#ff4d88;
+      --pink2:#ff77aa;
+      --shadow: 0 18px 50px rgba(58, 11, 29, .25);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, #fff 0 8px, transparent 9px),
+        radial-gradient(circle at 80% 35%, #fff 0 7px, transparent 8px),
+        radial-gradient(circle at 30% 70%, #fff 0 6px, transparent 7px),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-size: 220px 220px, 260px 260px, 240px 240px, auto;
+      position: relative;
+    }
+
+    /* plovoucí srdíčka pozadí */
+    .heart-bg {
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.35;
+      filter: blur(.2px);
+    }
+    .heart {
+      position:absolute;
+      width: 18px;
+      height: 18px;
+      transform: rotate(45deg);
+      background: rgba(255, 77, 136, .8);
+      border-radius: 4px;
+      animation: floatUp linear infinite;
+    }
+    .heart::before, .heart::after{
+      content:"";
+      position:absolute;
+      width: 18px;
+      height: 18px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart::before{ left:-9px; top:0; }
+    .heart::after{ top:-9px; left:0; }
+
+    @keyframes floatUp {
+      from { transform: translateY(110vh) rotate(45deg); }
+      to   { transform: translateY(-20vh) rotate(45deg); }
+    }
+
+    .wrap{
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding: 24px;
+    }
+
+    .card{
+      width:min(720px, 94vw);
+      background: var(--card);
+      border: 2px solid rgba(255,255,255,.6);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.08);
+    }
+    .badge .dot{
+      width:10px; height:10px;
+      border-radius:50%;
+      background: var(--pink);
+      box-shadow: 0 0 0 6px rgba(255,77,136,.15);
+    }
+
+    h1{
+      margin: 18px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -.8px;
+    }
+    p{
+      margin: 0 0 22px;
+      font-size: 18px;
+      opacity:.9;
+    }
+
+    .buttons-area{
+      position: relative;
+      margin-top: 14px;
+      height: 84px; /* prostor na poskakování NE tlačítka */
+    }
+
+    button{
+      appearance:none;
+      border:none;
+      border-radius: 18px;
+      padding: 14px 20px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+    }
+
+    .btn-yes{
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color: white;
+      box-shadow: 0 16px 30px rgba(255,77,136,.35);
+      min-width: 170px;
+    }
+    .btn-yes:hover{ transform: translateY(-2px) scale(1.02); filter: brightness(1.03); }
+    .btn-yes:active{ transform: translateY(0px) scale(.98); }
+
+    .btn-no{
+      position:absolute;
+      left: 210px;
+      top: 0px;
+      background: rgba(255,255,255,.75);
+      color: #7a1b3a;
+      border: 2px dashed rgba(255,77,136,.55);
+      box-shadow: 0 12px 24px rgba(58,11,29,.12);
+      min-width: 170px;
+    }
+    .btn-no:hover{
+      filter: brightness(1.02);
+    }
+
+    .hint{
+      margin-top: 16px;
+      font-size: 14px;
+      opacity:.75;
+    }
+
+    /* "Další stránka" */
+    .screen{
+      display:none;
+      text-align:center;
+      padding: 20px 6px 6px;
+    }
+    .screen.active{ display:block; }
+
+    .big{
+      font-size: clamp(34px, 5vw, 56px);
+      margin: 8px 0 8px;
+    }
+    .sub{
+      font-size: 18px;
+      margin: 0 auto 18px;
+      max-width: 52ch;
+      opacity:.92;
+    }
+
+    .confetti{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 22px;
+    }
+
+    .tiny-link{
+      display:inline-block;
+      margin-top: 18px;
+      font-size: 14px;
+      opacity:.75;
+      cursor:pointer;
+      text-decoration: underline;
+    }
+
+    /* roztomilé rohy */
+    .corner{
+      position:absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 40px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.7), rgba(255,255,255,0));
+      transform: rotate(18deg);
+      opacity: .85;
+    }
+    .c1{ top:-70px; left:-70px; }
+    .c2{ bottom:-70px; right:-70px; transform: rotate(-18deg); }
+
+    /* mobil: aby se NE tlačítko vešlo */
+    @media (max-width: 520px){
+      .buttons-area{ height: 150px; }
+      .btn-no{ left: 0; top: 76px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="heart-bg" id="heartBg" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="card" role="application" aria-label="Valentýnská otázka">
+      <div class="corner c1"></div>
+      <div class="corner c2"></div>
+
+      <!-- SCREEN 1 -->
+      <div class="screen active" id="screenQuestion">
+        <div class="badge"><span class="dot"></span>Valentýnský režim aktivní 💘</div>
+        <h1>Budeš moje Valentýnka?</h1>
+        <p>Prosím vyber možnost. (Jen jedna z nich je… ehm… technicky dostupná 😇)</p>
+
+        <div class="buttons-area" id="buttonsArea">
+          <button class="btn-yes" id="btnYes">Ano 💖</button>
+          <button class="btn-no" id="btnNo" type="button" aria-disabled="true" title="Tohle nepůjde 😅">Ne 🙃</button>
+        </div>
+
+        <div class="hint">Tip: Zkus najet na „Ne“. To tlačítko má vlastní názor.</div>
+      </div>
+
+      <!-- SCREEN 2 -->
+      <div class="screen" id="screenWin">
+        <div class="badge"><span class="dot"></span>Mise splněna 💞</div>
+        <div class="big">Jupíííí! Vyhrál jsem! 🥳💘</div>
+        <p class="sub">
+          Oficiálně potvrzeno: nejlepší Valentýnka na světě právě klikla na „Ano“.
+          <br/>Teď už zbývá jen… čokoláda, květiny a mega roztomilé rande.
+        </p>
+        <div class="confetti" aria-hidden="true">
+          💖 💘 💝 🥰 🌹 🍫 ✨ 🎉 💞 💓
+        </div>
+
+        <span class="tiny-link" id="backLink">Zpátky (jen kdyby sis to chtěla kliknout znovu 😄)</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // --- "Stránky"
+    const screenQuestion = document.getElementById("screenQuestion");
+    const screenWin = document.getElementById("screenWin");
+    const btnYes = document.getElementById("btnYes");
+    const btnNo = document.getElementById("btnNo");
+    const buttonsArea = document.getElementById("buttonsArea");
+    const backLink = document.getElementById("backLink");
+
+    btnYes.addEventListener("click", () => {
+      screenQuestion.classList.remove("active");
+      screenWin.classList.add("active");
+    });
+
+    backLink.addEventListener("click", () => {
+      screenWin.classList.remove("active");
+      screenQuestion.classList.add("active");
+    });
+
+    // --- "NE" tlačítko: nejde kliknout + utíká
+    // Zablokujeme klik úplně.
+    btnNo.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      // pro jistotu: nic se nestane
+    });
+
+    // Přidáme ještě "trapný" efekt na touch – na mobilu to posuneme i při dotyku
+    const fleeEvents = ["mouseenter", "mousemove", "touchstart"];
+
+    // Pomocné: clamp
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    function moveNoButton() {
+      // hranice v rámci buttonsArea
+      const areaRect = buttonsArea.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      const pad = 6;
+      const maxX = areaRect.width - btnRect.width - pad;
+      const maxY = areaRect.height - btnRect.height - pad;
+
+      // náhodná pozice + trochu "chaosu"
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      // náhodná rotace a měřítko pro vtip
+      const rot = (Math.random() * 26) - 13;   // -13..13 deg
+      const scale = 0.94 + Math.random() * 0.16; // 0.94..1.10
+
+      btnNo.style.left = clamp(x, pad, maxX) + "px";
+      btnNo.style.top  = clamp(y, pad, maxY) + "px";
+      btnNo.style.transform = `rotate(${rot}deg) scale(${scale})`;
+    }
+
+    fleeEvents.forEach(ev => {
+      btnNo.addEventListener(ev, (e) => {
+        // když jen projedeš kolem, uteče
+        moveNoButton();
+      }, { passive: true });
+    });
+
+    // Sem tam se "NE" samo posune (aby to žilo)
+    setInterval(() => {
+      // jen když jsme na první obrazovce
+      if (screenQuestion.classList.contains("active")) {
+        if (Math.random() < 0.25) moveNoButton();
+      }
+    }, 850);
+
+    // --- pozadí: generátor plovoucích srdíček
+    const heartBg = document.getElementById("heartBg");
+    const HEARTS = 20;
+
+    for (let i = 0; i < HEARTS; i++) {
+      const h = document.createElement("div");
+      h.className = "heart";
+
+      const left = Math.random() * 100;
+      const size = 10 + Math.random() * 18;
+      const dur = 6 + Math.random() * 8;
+      const delay = -Math.random() * dur;
+
+      h.style.left = left + "vw";
+      h.style.width = size + "px";
+      h.style.height = size + "px";
+      h.style.animationDuration = dur + "s";
+      h.style.animationDelay = delay + "s";
+      h.style.opacity = 0.25 + Math.random() * 0.55;
+
+      heartBg.appendChild(h);
+    }
+  </script>
+</body>
+</html>
